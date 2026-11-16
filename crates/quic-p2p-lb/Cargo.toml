@@ -1,0 +1,23 @@
+[package]
+name = "quic-p2p-lb"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Peer-to-peer QUIC load balancer with ML-based load prediction and forwarding."
+repository.workspace = true
+
+[features]
+default = ["std"]
+std = []
+
+[dependencies]
+quic-core = { workspace = true }
+quic-ml = { workspace = true }
+tokio = { workspace = true }
+tracing = { workspace = true }
+thiserror = { workspace = true }
+parking_lot = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }

@@ -1,0 +1,23 @@
+[package]
+name = "quic-hybrid"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Dynamic QUIC + WebRTC + gRPC transport router with ML-driven protocol selection for edge/CDN scenarios."
+repository.workspace = true
+
+[features]
+default = ["std"]
+std = []
+
+[dependencies]
+quic-core = { workspace = true }
+quic-ml = { workspace = true }
+tokio = { workspace = true }
+tracing = { workspace = true }
+thiserror = { workspace = true }
+parking_lot = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }

@@ -1,0 +1,37 @@
+[package]
+name = "quic-ml"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "ML-driven QUIC enhancements: LSTM RTT prediction, RL congestion control, anomaly/attack detection, MTU prediction — via ONNX Runtime with a CPU fallback."
+repository.workspace = true
+
+[features]
+default = ["onnx", "std"]
+std = []
+# Use the ONNX Runtime (ort) for model inference. When disabled, every
+# predictor falls back to a deterministic heuristic so the crate is still
+# usable on targets without a working ONNX runtime.
+onnx = ["dep:ort", "dep:ndarray", "dep:half"]
+# CUDA backend for batched feature preprocessing. Pure trait abstraction; the
+# `cuda` feature would enable a GPU kernel path. CPU fallback always exists.
+cuda = []
+
+[dependencies]
+quic-core = { workspace = true }
+tokio = { workspace = true }
+bytes = { workspace = true }
+tracing = { workspace = true }
+thiserror = { workspace = true }
+parking_lot = { workspace = true }
+rand = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+ort = { workspace = true, optional = true }
+ndarray = { workspace = true, optional = true }
+half = { workspace = true, optional = true }
+
+[dev-dependencies]
+tracing-subscriber = { workspace = true }

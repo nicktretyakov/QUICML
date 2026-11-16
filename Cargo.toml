@@ -1,0 +1,70 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/quic-core",
+    "crates/quic-ml",
+    "crates/quic-hybrid",
+    "crates/quic-p2p-lb",
+]
+exclude = ["skills", "node_modules"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+license = "MIT OR Apache-2.0"
+authors = ["ZCode"]
+repository = "https://example.com/quic-rs"
+readme = "README.md"
+description = "From-scratch QUIC (RFC 9000) on tokio + std::net::UdpSocket with ML-driven congestion, RTT prediction, anomaly detection and hybrid edge routing."
+
+[workspace.dependencies]
+# Async runtime
+tokio = { version = "1.40", features = ["full"] }
+tokio-util = { version = "0.7", features = ["full"] }
+futures = "0.3"
+bytes = "1.7"
+
+# TLS / crypto (rustls + ring primitives for QUIC packet protection)
+rustls = { version = "0.23", default-features = false, features = ["ring", "std"] }
+rustls-pemfile = "2.1"
+webpki-roots = "0.26"
+rcgen = "0.13"
+ring = "0.17"
+
+# ML
+ort = { version = "2.0.0-rc.9", default-features = false, features = ["download-binaries", "half", "tls-rustls", "ndarray", "std"] }
+# ndarray 0.17 with `std` — ort's `ndarray` feature pulls ndarray without std,
+# which gates `NdFloat` out; unifying here with std on fixes the ort build.
+ndarray = { version = "0.17", default-features = false, features = ["std"] }
+half = "2.4"
+
+# Misc
+rand = "0.8"
+slab = "0.4"
+smallvec = { version = "1.13", features = ["union", "const_generics"] }
+thiserror = "1.0"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+parking_lot = "0.12"
+crc = "3.2"
+
+# internal crates
+quic-core = { path = "crates/quic-core", version = "0.1.0" }
+quic-ml = { path = "crates/quic-ml", version = "0.1.0" }
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+panic = "abort"
+strip = true
+
+[profile.bench]
+inherits = "release"
+debug = true
+
+[profile.dev]
+opt-level = 1

@@ -1,0 +1,15 @@
+skills/
+node_modules/
+
+# Rust toolchain installed locally inside the project
+.rustup/
+.cargo/bin/
+.cargo/registry/
+.cargo/git/
+.ort-out/
+target/
+
+# Python model artifacts
+__pycache__/
+*.pyc
+models/out/
